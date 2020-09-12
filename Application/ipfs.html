@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="nav.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+    <script src="https://wzrd.in/standalone/buffer"></script>
+    <script src="https://unpkg.com/ipfs-api@9.0.0/dist/index.js"
+    integrity="sha384-5bXRcW9kyxxnSMbOoHzraqa7Z0PQWIao+cgeg327zit1hz5LZCEbIMx/LWKPReuB"
+    crossorigin="anonymous"></script>
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+    <style>
+
+        .input-field {
+                width: 100%;
+                padding: 10px;
+                outline: none;
+            }
+
+        .input-field:focus {
+                    border: 2px solid red;
+                }
+
+        .ta {
+            width: 550px;
+            height: 150px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 2px solid maroon;
+            font-size: 15px;
+            font-family: cursive; 
+            font-weight: bold;
+            text-align: justify;
+            color: mediumslateblue;
+            background-color: sandybrown;
+            outline: none;
+            cursor: auto;
+        }
+        .ta:focus {
+            border: 2px solid darkcyan;
+        }
+
+        ::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: yellow; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: yellowgreen; 
+}
+
+        .btn {
+                background-color: yellow;
+                color: maroon;
+                border: none;
+                cursor: pointer;
+                font-size: 15px;
+                font-family: cursive; 
+                font-weight: bold;
+                text-align: center;
+                width: 180px;
+                height: 35px;
+                border-radius: 4px;
+                border: 2px solid maroon;
+                outline: none;
+            }
+
+            .btn:hover {
+                color: black;
+            }
+
+           #url{
+               font-size: 15px;
+               font-weight: bold;
+               display: none;
+           }
+
+           #load{
+            float: left; 
+            margin-top: 60px;
+            margin-left: -280px;
+            width: 100px;
+            display: none;
+           }
+
+           #ty{
+            float: left; 
+            margin-top: 30px;
+            margin-left: 240px;
+            width: 200px;
+            display: none;
+           }
+    </style>
+</head>
+
+<body style= "background-color: lightyellow">
+
+    <div class="navbar">
+        <a href="#" style=" float: left; font-size: 35px; font-weight: bold;"> 
+            DBRS 
+        </a>
+    
+        <a class="active" href="login.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-sign-out"></i>
+            </li> 
+            Logout
+        </a>
+    
+        <a href="posts.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-comments"></i>
+            </li> 
+            Reviews
+        </a>
+    
+        <a href="ListDoc.html">
+          <li class="logo">
+              <i class="fa fa-fw fa-list"></i>
+          </li> 
+          Research Papers
+      </a>
+      
+        <a href="index.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-home"></i>
+            </li> 
+            Home
+        </a>
+        
+    </div>
+
+      <div style="float:left;">
+        <img src="./money.jpg" width="800" height="557" style="background-color: transparent; margin-top: 0px;
+            margin-left: -120px">
+      </div>
+
+      <div style="float:left; margin-top: 5px; margin-left: 68px;">
+            <textarea readonly id="comment" class="ta">               Guidelines for Submission of Research Paper&#13;&#10;All authors must adhere with below mentioned guidelines before submitting paper for review.&#13;&#10;1. Title of the research paper should be clear and indicative of paper content so that it is convenient for reviewers to pick a suitable topic.&#13;&#10;2. There should no plagiarism and submissions should be 100% original. Proper citations should be provided in bibliography section.&#13;&#10;3. The order of authorship should be according to agreement of all authors.&#13;&#10;4. All individuals involved in the creation of the paper should be properly credited.&#13;&#10;5. It is essential that all authors and reviewers conduct themselves in accordance with the highest level of professional ethics and standards and follow the guidelines above.</textarea>
+      </div>
+
+      <div style="float:left; margin-top: 15px; margin-left: 230px;">
+        <input id="input" class="input-field" type="text" placeholder="Address" name="m.email_address">
+      </div>
+
+      <div style="float:left; margin-top: 30px; margin-left: 120px;">
+        <input type="file" name="doc" id="doc" style="color: blue; font-weight: bold;">
+      </div>
+      
+      <div style="float:left; margin-top: 30px; margin-left: 15px;">
+            <button id="button" class="btn">Submit Review</button>
+      </div>
+
+      <div>
+            <img id="load" src="Infinity-1s-200px.gif">
+      </div>
+
+      <div>
+        <img id="ty" src="thank.gif">
+      </div>
+      
+      <div style="float:left; margin-top: 30px; margin-left: 120px;">
+            <a href="#" id="url" target="_blank">
+                CLICK HERE! YOUR REVIEW HAS BEEN UPLOADED TO IPFS.</a>
+       </div>
+
+       <div style="float:left; margin-top: 100px; margin-left: 110px;">
+        <h2 id="Error" style="text-align: center; color: red; font-size: x-large;"></h2>
+       </div>
+       
+       <pre id="output" style="display: none;"></pre>
+
+      <script>
+          var comm = document.getElementById('comment');
+          var btn = document.getElementById('button');
+          var url = document.getElementById('url')
+          var ipfshash = '';
+          var o = document.getElementById('output');
+          var e = document.getElementById('Error');
+          var i = document.getElementById('input');
+
+          var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        //console.log(web3);
+          web3.eth.defaultAccount = web3.eth.accounts[0];
+          var c = web3.eth.contract([{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"accountAddress","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"LogDepositMade","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"rev","type":"address"},{"indexed":false,"internalType":"bytes","name":"ipfs","type":"bytes"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"ReviewPub","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address payable","name":"ReviewrAddr","type":"address"},{"indexed":false,"internalType":"uint256","name":"Incentive","type":"uint256"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"RewardSent","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"commentor","type":"address"},{"indexed":false,"internalType":"uint256","name":"ticketno","type":"uint256"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"TicketGeneration","type":"event"},{"inputs":[],"name":"FundsDeposit","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"GetArrayLen","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"i","type":"uint256"}],"name":"GetHashAtIndex","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"GetTicket","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"RewardGiven","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"bytes","name":"ipfs","type":"bytes"},{"internalType":"address payable","name":"addr","type":"address"}],"name":"StoreRevHash","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address payable","name":"commentor","type":"address"}],"name":"TicketGenerator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address payable","name":"addr","type":"address"}],"name":"Validate","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"showbalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]);
+          var b = c.at(localStorage.getItem('BlockAddr'));
+          o.innerHTML = b.GetTicket.call();
+          
+          button.addEventListener('click', function(){
+            if(i.value === "")
+            {
+              e.innerHTML= 'Error Posting Review';
+            }
+            else {
+            try{
+            $("#ty").hide();
+            $("#url").hide();
+            $("#Error").hide();
+            $("#load").show();
+            /*const ipfs = window.IpfsApi({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
+            const buf = buffer.Buffer(comm.value) // Convert data into buffer
+            ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
+              if(err) {
+                console.error(err)
+                return
+              }*/
+              const reader = new FileReader();
+              reader.onloadend = function() {
+              const ipfs = window.IpfsApi({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
+              const buf = buffer.Buffer(reader.result) 
+              ipfs.files.add(buf, (err, result) => { 
+              if(err) {
+                console.error(err)
+                return
+               }
+              ipfshash = result[0].hash;
+              var asc = web3.fromAscii(ipfshash);
+              console.log(asc,localStorage.addr, b.GetTicket.call());
+              try{
+                b.StoreRevHash(asc, i.value, {from: web3.eth.accounts[0], gas:3000000});
+                console.log('p');
+                url.href= "https://ipfs.io/ipfs/"+ result[0].hash;
+                $("#load").hide();
+                $("#ty").show();
+                $("#url").show();
+                b.RewardGiven();
+                //o.innerHTML = web3.toAscii(b.getHash.call());
+              }
+              catch(error)
+              {
+                $("#load").hide();
+                $("#ty").hide();
+                $("#url").hide();
+                $("#Error").show();
+                e.innerHTML= 'Error Posting Review';
+              }
+            })
+            }
+            const doc = document.getElementById("doc");
+            reader.readAsArrayBuffer(doc.files[0]); 
+            }
+            catch {
+              $("#load").hide();
+              $("#Error").show();
+              e.innerHTML= 'Error Posting Review';
+            }
+            }
+        });
+      </script>
+</body>
+</html>

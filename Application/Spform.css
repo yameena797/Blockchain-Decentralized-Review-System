@@ -1,0 +1,92 @@
+
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            * {
+                box-sizing: border-box;
+                border-radius: 4px;
+            }
+
+            .input-container {
+                display: -ms-flexbox;
+                display: flex;
+                width: 94.5%;
+                margin-top: 20px;
+            }
+
+            .icon {
+                padding: 10px;
+                background:yellow;
+                color: red;
+                min-width: 50px;
+                text-align: center;
+                margin-left: 20px;
+            }
+
+            .input-field {
+                width: 100%;
+                padding: 10px;
+                outline: none;
+            }
+
+                .input-field:focus {
+                    border: 2px solid red;
+                }
+
+            .btn {
+                background-color: yellow;
+                color: red;
+                border: none;
+                cursor: pointer;
+                margin-top: 20px;
+                margin-left: 115px;
+                display: inline-block;
+                font-size: 15px;
+                font-weight: bold;
+                text-align: center;
+                font-size: 15px;
+                width: 150px;
+                height: 35px;
+            }
+
+                .btn:hover {
+                    color: black;
+                }
+
+            .wrap-login100 {
+                width: 370px;
+                height: 340px;
+                border-radius: 10px;
+                overflow: hidden;
+                padding-bottom: 50px;
+                padding-top: 30px;
+                margin-top: 100px;
+                margin-left: 500px;
+            }
+
+            #event {
+                margin-top: 20px;
+                margin-left: 40px;
+                background-color: lightgreen;
+                color: darkblue; 
+                font-family: cursive; 
+                font-size: 15px;
+                font-weight: bold;
+                text-align: center;
+                font-size: 15px;
+                width: 300px;
+                height: 35px;
+                padding: 5px;
+                border: 1px solid darkblue;
+                text-align: center;
+            }
+
+            #load {
+                margin-top: 20px;
+                margin-left: 172px;
+            }
+
+            #review {
+                display: none;
+            }

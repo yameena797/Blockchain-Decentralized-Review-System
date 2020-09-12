@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="nav.css" rel="stylesheet" type="text/css">
+    <link href="throw.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+    <style>
+    .s {
+    margin-top: 50px;
+    margin-left: 508px;
+    background-color: palegoldenrod;
+    color: darkblue; 
+    font-family: cursive; 
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 15px;
+    width: 350px;
+    height: 40px;
+    padding: 8px;
+    border: 1px solid darkblue;
+    text-align: center;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+    </style>
+</head>
+
+<body style="background-color: lightblue;"> 
+
+    <div class="navbar">
+        <a href="#" style=" float: left; font-size: 35px; font-weight: bold;"> 
+            DBRS 
+        </a>
+    
+        <a class="active" href="login.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-sign-out"></i>
+            </li> 
+            Logout
+        </a>
+    
+        <a href="posts.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-comments"></i>
+            </li> 
+            Reviews
+        </a>
+
+        <a href="SPUpload.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-upload"></i>
+            </li> 
+            Upload Research Papers
+        </a>
+
+        <a  href="index.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-home"></i>
+            </li> 
+            Home
+        </a>
+      </div>
+
+      <div class="treat-wrapper">
+
+        <img id="load" src="https://i717.photobucket.com/albums/ww173/prestonjjrtr/Smileys/down.gif" border="0"/>
+        <div class="input-container">
+            <i class="fa fa-money icon"></i>
+            <input id="input" class="input-field" type="text" placeholder="Enter Ether to Deposit" name="m.email_address">
+        </div>
+
+        <button id="button" class="treat-button" onclick="d(); return false;">Deposit Amount</button>
+    
+        <input readonly id="status" class="s" type="text" placeholder="Deposit Status">
+    </div>
+
+    <input id="amt" type="text" style="display: none;">
+
+    <pre id="output">
+
+    </pre>
+    <script>
+
+        var button = document.getElementById('button');
+
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        const body = document.body;
+        const elWrapper = document.querySelector(".treat-wrapper");
+
+        function getRandomArbitrary(min, max) {
+        return Math.random() * (max - min) + min;
+        }
+
+        function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        const treatmojis = ["💰","👛","🤑","💳","✨","💲","🥠","💸","🎁"];
+        const treats = [];
+        const radius = 15;
+
+        const Cd = 0.47; // Dimensionless
+        const rho = 1.22; // kg / m^3
+        const A = Math.PI * radius * radius / 10000; // m^2
+        const ag = 9.81; // m / s^2
+        const frameRate = 1 / 60;
+
+        function createTreat() /* create a treat */ {
+        const vx = getRandomArbitrary(-10, 10); // x velocity
+        const vy = getRandomArbitrary(-10, 1);  // y velocity
+        
+        const el = document.createElement("div");
+        el.className = "treat";
+
+        const inner = document.createElement("span");
+        inner.className = "inner";
+        inner.innerText = treatmojis[getRandomInt(0, treatmojis.length - 1)];
+        el.appendChild(inner);
+        
+        elWrapper.appendChild(el);
+
+        const rect = el.getBoundingClientRect();
+
+        const lifetime = getRandomArbitrary(2000, 3000);
+
+        el.style.setProperty("--lifetime", lifetime);
+
+        const treat = {
+            el,
+            absolutePosition: { x: rect.left, y: rect.top },
+            position: { x: rect.left, y: rect.top },
+            velocity: { x: vx, y: vy },
+            mass: 0.1, //kg
+            radius: el.offsetWidth, // 1px = 1cm
+            restitution: -.7,
+            
+            lifetime,
+            direction: vx > 0 ? 1 : -1,
+
+            animating: true,
+
+            remove() {
+            this.animating = false;
+            this.el.parentNode.removeChild(this.el);
+            },
+
+            animate() {
+            const treat = this;
+            let Fx =
+                -0.5 *
+                Cd *
+                A *
+                rho *
+                treat.velocity.x *
+                treat.velocity.x *
+                treat.velocity.x /
+                Math.abs(treat.velocity.x);
+            let Fy =
+                -0.5 *
+                Cd *
+                A *
+                rho *
+                treat.velocity.y *
+                treat.velocity.y *
+                treat.velocity.y /
+                Math.abs(treat.velocity.y);
+
+            Fx = isNaN(Fx) ? 0 : Fx;
+            Fy = isNaN(Fy) ? 0 : Fy;
+
+            // Calculate acceleration ( F = ma )
+            var ax = Fx / treat.mass;
+            var ay = ag + Fy / treat.mass;
+            // Integrate to get velocity
+            treat.velocity.x += ax * frameRate;
+            treat.velocity.y += ay * frameRate;
+
+            // Integrate to get position
+            treat.position.x += treat.velocity.x * frameRate * 100;
+            treat.position.y += treat.velocity.y * frameRate * 100;
+            
+            treat.checkBounds();
+            treat.update();
+            },
+            
+            checkBounds() {
+
+            if (treat.position.y > height - treat.radius) {
+                treat.velocity.y *= treat.restitution;
+                treat.position.y = height - treat.radius;
+            }
+            if (treat.position.x > width - treat.radius) {
+                treat.velocity.x *= treat.restitution;
+                treat.position.x = width - treat.radius;
+                treat.direction = -1;
+            }
+            if (treat.position.x < treat.radius) {
+                treat.velocity.x *= treat.restitution;
+                treat.position.x = treat.radius;
+                treat.direction = 1;
+            }
+
+            },
+
+            update() {
+            const relX = this.position.x - this.absolutePosition.x;
+            const relY = this.position.y - this.absolutePosition.y;
+
+            this.el.style.setProperty("--x", relX);
+            this.el.style.setProperty("--y", relY);
+            this.el.style.setProperty("--direction", this.direction);
+            }
+        };
+
+        setTimeout(() => {
+            treat.remove();
+        }, lifetime);
+
+        return treat;
+        }
+
+
+        function animationLoop() {
+        var i = treats.length;
+        while (i--) {
+            treats[i].animate();
+
+            if (!treats[i].animating) {
+            treats.splice(i, 1);
+            }
+        }
+
+        requestAnimationFrame(animationLoop);
+        }
+
+        animationLoop();
+
+        function addTreats() {
+        //cancelAnimationFrame(frame);
+        if (treats.length > 40) {
+            return;
+        }
+        for (let i = 0; i < 10; i++) {
+            treats.push(createTreat());
+        }
+        }
+
+        window.addEventListener("resize", () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        });
+
+        button.addEventListener('mouseover', function(){
+            addTreats();
+        });
+
+        /*var i = document.getElementById('input');
+        document.getElementById('amt').value = '2';
+        var v = document.getElementById('amt');
+        var o = document.getElementById('output');*/
+        
+        var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        //console.log(web3);
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        var c = web3.eth.contract([{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"accountAddress","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"LogDepositMade","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"rev","type":"address"},{"indexed":false,"internalType":"bytes","name":"ipfs","type":"bytes"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"ReviewPub","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address payable","name":"ReviewrAddr","type":"address"},{"indexed":false,"internalType":"uint256","name":"Incentive","type":"uint256"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"RewardSent","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"commentor","type":"address"},{"indexed":false,"internalType":"uint256","name":"ticketno","type":"uint256"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"TicketGeneration","type":"event"},{"inputs":[],"name":"FundsDeposit","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"GetArrayLen","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"i","type":"uint256"}],"name":"GetHashAtIndex","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"GetTicket","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"RewardGiven","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"bytes","name":"ipfs","type":"bytes"},{"internalType":"address payable","name":"addr","type":"address"}],"name":"StoreRevHash","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address payable","name":"commentor","type":"address"}],"name":"TicketGenerator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address payable","name":"addr","type":"address"}],"name":"Validate","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"showbalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]);
+        var b = c.at(localStorage.getItem('BlockAddr'));
+        /*var es = b.TicketGeneration();
+        var ef = b.TicketGenerationFailed();*/
+        
+        /*var amount = 0;
+
+        if(parseInt(i.value) === parseInt(v.value))
+        {
+            amount = web3.toWei(2, 'ether');
+        }
+        else{
+            amount = web3.toWei(0, 'ether');
+            o.innerHTML = i.value;
+        }*/
+
+        function d() {
+            var i = document.getElementById('input');
+            document.getElementById('amt').value = '2';
+            var v = document.getElementById('amt');
+            var o = document.getElementById('output');
+            var s = document.getElementById('status');
+
+            var amount = 0;
+
+            if(parseInt(i.value) === parseInt(v.value))
+            {
+                amount = web3.toWei(2, 'ether');
+            }
+            else{
+                amount = web3.toWei(0, 'ether');
+            }
+
+            try{
+              b.FundsDeposit({value: amount});
+              s.value='Funds Succesfully Deposited '+ String.fromCodePoint(0x1F603);
+            }
+            catch(error)
+            {
+              s.value='Funds Deposit Failed ' + String.fromCodePoint(0x1F641);
+            }
+        }
+
+    </script>
+</body>

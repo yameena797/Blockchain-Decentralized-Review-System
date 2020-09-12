@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="nav.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+    <style>
+        .button {
+          border-radius: 4px;
+          background-color: #f4511e;
+          border: none;
+          color: darkblue; 
+          font-family: cursive; 
+          font-size: 15px;
+          font-weight: bold;
+          text-align: center;
+          font-size: 15px;
+          padding: 20px;
+          width: 300px;
+          transition: all 0.5s;
+          cursor: pointer;
+          margin-left: 0px;
+          margin-top: 250px;
+        }
+        
+        .button span {
+          cursor: pointer;
+          display: inline-block;
+          position: relative;
+          transition: 0.5s;
+        }
+        
+        .button span:after {
+          content: '\00bb';
+          position: absolute;
+          opacity: 0;
+          top: 0;
+          right: -20px;
+          transition: 0.5s;
+        }
+        
+        .button:hover span {
+          padding-right: 25px;
+        }
+        
+        .button:hover span:after {
+          opacity: 1;
+          right: 0;
+        }
+        </style>
+</head>
+
+<body style="background-image: url(c.gif);">
+
+    <div class="navbar">
+        <a href="#" style=" float: left; font-size: 35px; font-weight: bold;"> 
+            DBRS 
+        </a>
+    
+        <a class="active" href="login.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-user"></i>
+            </li> 
+            Login
+        </a>
+    
+        <a href="posts.html">
+          <li class="logo">
+              <i class="fa fa-fw fa-comments"></i>
+          </li> 
+          Reviews
+      </a>
+    
+        <a href="index.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-home"></i>
+            </li> 
+            Home
+        </a>
+      </div>
+      
+    <button class="button" onclick="document.location = 'SPLogin.html'" style="margin-left: 400px;">
+        <span>LOGIN As SERVICE PROVIDER </span>
+    </button>
+    
+    <button class="button" onclick="document.location = 'Reviewer.html'">
+        <span>LOGIN As REVIEWER </span>
+    </button>
+</body>
+</html>

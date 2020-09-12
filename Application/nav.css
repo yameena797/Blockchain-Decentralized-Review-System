@@ -1,0 +1,34 @@
+html, body{
+    margin:0px;
+    padding:0px;
+    }
+
+    .navbar {
+     width: 100%;
+     height: 64px;
+     background-color:navy;
+     overflow: auto;
+     }
+     
+     .navbar a {
+     float: right;
+     text-align: center;
+     padding: 12px;
+     color:orangered;
+     text-decoration: none;
+     font-size: 17px;
+     margin-left: 35px;
+     }
+
+     .navbar a:hover {
+     background-color: rgb(107, 103, 103);
+     }
+
+     .active {
+     background-color: saddlebrown;
+     }
+
+     .logo {
+         color: gold; 
+         list-style: none;
+     }

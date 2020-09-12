@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="nav.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="reviewerform.css" rel="stylesheet" type="text/css">
+
+<style>
+    .header {
+        background: url(sn.jpg);
+        background-size: cover;
+        height: 100%;
+        }
+</style>
+</head>
+
+<body class="header">
+
+    <div class="navbar">
+        <a href="#" style=" float: left; font-size: 35px; font-weight: bold;"> 
+            DBRS 
+        </a>
+    
+        <a class="active" href="login.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-user"></i>
+            </li> 
+            Login
+        </a>
+    
+        <a href="posts.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-comments"></i>
+            </li> 
+            Reviews
+        </a>
+        
+        <a href="index.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-home"></i>
+            </li> 
+            Home
+        </a>
+      </div>
+      
+      <div class="wrap-login100">
+        <form style="max-width:500px;margin:auto">
+            <h2 style="margin-top: 0px; text-align: center; color: yellow;">LOGIN FORM</h2>
+
+            <div class="input-container">
+                <i class="fa fa-user-secret icon"></i>
+                <input id="input" class="input-field" type="text" placeholder="Address" name="m.email_address">
+            </div>
+
+            <button id="button" class="btn" onclick="t(); return false;">Generate Token</button>
+            
+            <img id="load" src="oie_251002rgESC7Tp.gif" style="width: 35px;">
+            
+            <h2 id="event">Token Status</h2>
+        </form>
+
+        <button id="review" class="btn" onclick="document.location = 'ipfs.html'">
+            LOGIN
+        </button>
+    </div>
+
+    <script> 
+
+        var f = 0;
+        var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        //console.log(web3);
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        var c = web3.eth.contract([{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"accountAddress","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"LogDepositMade","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"rev","type":"address"},{"indexed":false,"internalType":"bytes","name":"ipfs","type":"bytes"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"ReviewPub","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address payable","name":"ReviewrAddr","type":"address"},{"indexed":false,"internalType":"uint256","name":"Incentive","type":"uint256"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"RewardSent","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"commentor","type":"address"},{"indexed":false,"internalType":"uint256","name":"ticketno","type":"uint256"},{"indexed":false,"internalType":"string","name":"s","type":"string"}],"name":"TicketGeneration","type":"event"},{"inputs":[],"name":"FundsDeposit","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"GetArrayLen","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"i","type":"uint256"}],"name":"GetHashAtIndex","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"GetTicket","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"RewardGiven","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"bytes","name":"ipfs","type":"bytes"},{"internalType":"address payable","name":"addr","type":"address"}],"name":"StoreRevHash","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address payable","name":"commentor","type":"address"}],"name":"TicketGenerator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address payable","name":"addr","type":"address"}],"name":"Validate","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"showbalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]);
+        var b = c.at(localStorage.getItem('BlockAddr'));
+       
+        /*var es = b.TicketGeneration();
+
+        es.watch(function(error, result){
+               if(!error)
+               {
+                   $("#load").hide();
+                   $("#review").show();
+                   $("#event").html(result.args.s);
+               } 
+               else{
+                   $("#load").hide();
+                   $("#review").hide();
+                   console.log(error);
+               }
+        });
+
+        ef.watch(function(error, result){
+               if(!error)
+               {
+                   $("#load").hide();
+                   $("#review").hide();
+                   $("#event").html(result.args.s);
+               } 
+               else{
+                   $("#load").hide();
+                   $("#review").hide();
+                   console.log(error);
+               }
+        });*/
+
+        var i = document.getElementById('input');
+        var button = document.getElementById('button');
+        //var o = document.getElementById('output');
+
+        /*button.addEventListener('click', function(){
+
+            try{
+              b.TicketGenerator(i.value);
+              $("#load").hide();
+              $("#review").show();
+              $("#event").html('y');
+            }
+            catch(error)
+            {
+
+            }
+            //o.innerHTML = b.GetTicket.call();
+        });*/
+
+        function t() {
+            try{
+              b.TicketGenerator(i.value, {from: web3.eth.accounts[0], gas:3000000});
+              $("#load").hide();
+              $("#review").show();
+              $("#event").html('Token Created Succesfully');
+            }
+            catch(error)
+            {
+              $("#load").show();
+              $("#review").hide();
+              $("#event").html('Token Creation Failed');
+            }
+            //o.innerHTML = b.GetTicket.call();
+        }
+    </script>
+
+</body>
+</html>

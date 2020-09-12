@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="nav.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+    <script src="https://wzrd.in/standalone/buffer"></script>
+    <script src="https://unpkg.com/ipfs-api@9.0.0/dist/index.js"
+    integrity="sha384-5bXRcW9kyxxnSMbOoHzraqa7Z0PQWIao+cgeg327zit1hz5LZCEbIMx/LWKPReuB"
+    crossorigin="anonymous"></script>
+    <script src="./node_modules/web3/dist/web3.min.js"></script>    <link href="Spform.css" rel="stylesheet" type="text/css">
+    
+<style>
+    .header {
+        background-image: linear-gradient(to bottom right, black, orange);
+        height: 625px;
+        }
+
+    #load {
+        width: 200px;
+        margin-top: 10px;
+        margin-left: 570px;
+    }
+
+    .heading{
+            font-size: 25px;
+            font-family: Helvetica; 
+            font-weight: bold;
+            margin-left: 465px;
+            color: lavender;
+    }
+</style>
+</head>
+
+<body class="header">
+
+    <div class="navbar">
+        <a href="#" style=" float: left; font-size: 35px; font-weight: bold;"> 
+            DBRS 
+        </a>
+    
+        <a href="login.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-sign-out"></i>
+            </li> 
+            Logout
+        </a>
+    
+        <a href="posts.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-comments"></i>
+            </li> 
+            Reviews
+        </a>
+
+        <a class="active" href="SPUpload.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-upload"></i>
+            </li> 
+            Upload Research Papers
+        </a>
+
+        <a href="index.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-home"></i>
+            </li> 
+            Home
+        </a>
+      </div>
+
+      <h1 class="heading">Upload Research Paper for Review</h1>
+
+      <img id="load" src="choco.gif" border="0"/>
+     
+      <div style="float:left; margin-top: 60px; margin-left: 400px;">
+            <input type="file" name="doc" id="doc" style="color: lightskyblue; font-weight: bold;" onclick="change()">
+      </div>
+
+      <div style="float:left; margin-top: 30px; margin-left: 15px;">
+            <button id="button" class="btn">Upload Document</button>
+      </div>
+
+      <div class="input-container" style="width: 500px; margin-top: 150px; margin-left: 407px;">
+        <i class="fa fa-file-text icon"></i>
+        <input id="input" class="input-field" type="text" placeholder="Research Paper Topic" name="m.email_address">
+      </div>
+
+      <img id="logo" src="oie_110119nZLFMnZv.gif" style="display: none; width: 200px; margin-top: 20px; margin-left: 570px;">
+      <h2 id="Status" style="text-align: center; margin-top: 70px; color: lavender; font-size: x-large;">File Upload Status</h2>
+
+    <script> 
+        var btn = document.getElementById('button');
+        var se = document.getElementById('Status');
+        var inp = document.getElementById('input');
+        var f = document.getElementById('doc');
+        var u = [];
+        var rt = [];
+        var i=0;
+        var d = null;
+        var t = null;
+
+        button.addEventListener('click', function(){
+            if(inp.value === "")
+            {
+                se.innerHTML= "Fill the Research topic Box"
+            }
+            else{
+            try{
+            $("#logo").show();
+            $("#Status").hide();
+            var reader = new FileReader();
+            reader.onload = function() {
+                const ipfs = window.IpfsApi({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
+                const buf = buffer.Buffer(reader.result) 
+                ipfs.files.add(buf, (err, result) => { 
+                if(err) {
+                    $("#logo").hide();
+                    $("#Status").show();
+                    se.innerHTML = "Error Uploading File";
+                    console.error(err)
+                    return
+                }
+                u[i] = result[0].hash;
+                rt[i] = inp.value;
+                
+                if(localStorage.getItem("fu") === null)
+                {
+                    localStorage["fu"] = JSON.stringify(u);
+                    localStorage["topic"] = JSON.stringify(rt);
+                }
+                else
+                {
+                d = JSON.parse(localStorage["fu"]);
+                d[d.length] = u[i];
+                localStorage["fu"] = JSON.stringify(d);
+
+                t = JSON.parse(localStorage["topic"]);
+                t[t.length] = rt[i];
+                localStorage["topic"] = JSON.stringify(t);
+                console.log("p");
+                }
+                i++;
+                $("#logo").hide();
+                $("#Status").show();
+                se.innerHTML = "File Uploaded Successfully";
+                /*try {
+                u[i] = reader.result;
+                localStorage["fu"] = JSON.stringify(u);
+                d = JSON.parse(localStorage["fu"]);
+                i++;
+                se.innerHTML = "File Uploaded Successfully";
+                }
+                catch {
+                    se.innerHTML = "Error Uploading File";
+                }*/
+                })
+            }
+            reader.readAsArrayBuffer(doc.files[0]);  
+            }
+        
+            catch {
+             $("#logo").hide();
+             $("#Status").show();
+             se.innerHTML = "Error Uploading File";
+            }
+        }
+        });
+
+        function change() {
+            se.innerHTML= "File Upload Status";
+        }
+    </script>
+
+</body>
+</html>

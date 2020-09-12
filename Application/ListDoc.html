@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="nav.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="Spform.css" rel="stylesheet" type="text/css">
+<style>
+    .header {
+        background-color: lemonchiffon;
+        height: 100%;
+        }
+     ol {
+         display: table;
+         background-color: coral;
+     } 
+
+     ol li {
+         padding: 10px;
+         color: darkgreen;
+     }
+
+     a {
+         margin-left: 50px;
+         color: yellow;
+         font-weight: bolder;
+         font-size: 15px;
+     }
+
+     progress {
+         margin-top: 0px;
+         margin-left: 50px;
+         width: 50%;
+     }
+
+     progress::-webkit-progress-value {
+        background: purple;
+      }
+
+      progress::-webkit-progress-bar {
+        background: lightgray;
+      }
+
+     h1 {
+         color: darkred;
+         font-size: 15px;
+         margin-top: -18px;
+         margin-left: 440px;
+     }
+
+     #load {
+        width: 200px;
+        margin-top: 10px;
+        margin-left: 570px;
+    }
+
+    .heading{
+            margin-top: 10px;
+            font-size: 25px;
+            font-family: Helvetica; 
+            font-weight: bold;
+            margin-left: 505px;
+            color: red;
+        }
+</style>
+</head>
+
+<body class="header">
+
+    <div class="navbar">
+        <a href="#" style=" float: left; font-size: 35px; font-weight: bold;"> 
+            DBRS 
+        </a>
+    
+        <a  href="login.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-sign-out"></i>
+            </li> 
+            Logout
+        </a>
+    
+        <a href="posts.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-comments"></i>
+            </li> 
+            Reviews
+        </a>
+
+        <a class="active" href="ListDoc.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-list"></i>
+            </li> 
+            Research Papers
+        </a>
+
+        <a href="index.html">
+            <li class="logo">
+                <i class="fa fa-fw fa-home"></i>
+            </li> 
+            Home
+        </a>
+      </div>
+      <h1 class="heading">Research Papers for Review</h1> 
+
+      <img id="load" src="vote.gif" border="0"/>
+
+      <ol id="o" style="margin-top: 50px;">
+      </ol>
+     
+    <script> 
+       var d = null;
+       var rt = null;
+       var eu = [];
+       var pu = [];
+       var tu = [];
+       d = JSON.parse(localStorage["fu"]);
+       rt = JSON.parse(localStorage["topic"]);
+       var o = document.getElementById("o");
+       var c = new Array(100).fill(0);
+       
+       if(localStorage.getItem("l") != null)
+       {
+            c = JSON.parse(localStorage["l"]);
+       }
+
+       for(var i=0; i<d.length; i++)
+        {
+         var li = document.createElement("li");
+         var url = document.createElement("a");
+         url.innerHTML = rt[i];
+         url.setAttribute('href','https://ipfs.io/ipfs/'+ d[i]);
+         var p = document.createElement("progress");
+         p.value = c[i];
+         p.max = "100";
+         var t = document.createElement("h1");
+         t.innerHTML = c[i] + "%";
+         //url.href = "https://ipfs.io/ipfs/"+ d[i];
+         url.target="_blank";
+         //url.addEventListener("click", pollinc);
+         //url.onclick= pollinc(i);
+         //p.value= perc(i);
+         //t.innerHTML= perc(i) + "%";
+         //li.innerHTML =d[i];
+         eu[i]= url;
+         pu[i]= p;
+         tu[i]= t;
+         (function(i){
+             eu[i].onclick = function(){
+                 c[i]++;
+                 pu[i].value= c[i];
+                 tu[i].innerHTML= c[i] + "%";
+                 localStorage["l"] = JSON.stringify(c);
+             }
+         })(i);
+         li.appendChild(url);
+         li.appendChild(p);
+         li.appendChild(t);
+         o.appendChild(li);
+        }
+
+        /*function pollinc(j) {
+            c[j]++;
+        }
+
+        function perc(j) {
+            return c[j];
+        }        
+
+        function atchevnt(){
+            for(var k=0; k<eu.length; k++)
+            {
+                eu[k].addEventListener("click", pollinc(k));
+            }
+        }
+        window.onclick= atchevnt;*/
+    </script>
+
+</body>
+</html>
